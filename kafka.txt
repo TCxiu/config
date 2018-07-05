@@ -1,0 +1,24 @@
+下载 
+
+sbt下载安装
+curl https://bintray.com/sbt/rpm/rpm | sudo tee /etc/yum.repos.d/bintray-sbt-rpm.repo
+yum -y install sbt
+
+scala下载
+wget https://downloads.lightbend.com/scala/2.12.6/scala-2.12.6.tgz
+
+kafka下载
+wget http://apache.website-solution.net/kafka/1.1.0/kafka_2.12-1.1.0.tgz
+
+
+version: '2'
+services:
+  kafka-manager:
+    image: sheepkiller/kafka-manager
+    environment:
+      ZK_HOSTS: 192.168.0.66:62181,192.168.0.66:62182,192.168.0.66:62183
+      APPLICATION_SECRET: "letmein"
+    ports:
+      - "39000:9000"
+    expose:
+      - "9000"
