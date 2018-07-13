@@ -1,0 +1,22 @@
+﻿香港
+47.52.253.35
+
+华东(li孙文鑫li)
+47.98.174.17
+li203204
+
+
+华东(li张俊毅li)
+47.98.219.205
+li203204
+
+
+
+nohup java -jar serviceRegister-node1.jar >  register.log 2>&1 &
+
+
+mysql地址 
+	47.98.219.205
+
+redis地址
+	47.98.174.17   密码 dyd_2018	

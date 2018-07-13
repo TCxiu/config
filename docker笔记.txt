@@ -147,11 +147,6 @@ docker pull wurstmeister/zookeeper
 docker run -d --name kafka --publish 9092:9092 \ --link zookeeper \ --env KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181 \ --env KAFKA_ADVERTISED_HOST_NAME=192.168.1.20 \ --env KAFKA_ADVERTISED_PORT=9092 \ --volume /etc/localtime:/etc/localtime \ wurstmeister/kafka:latest
 
 
-作者：月冷心寒
-链接：https://www.jianshu.com/p/263164fdcac7
-來源：简书
-简书著作权归作者所有，任何形式的转载都请联系作者获得授权并注明出处。
-
 
 安装gitlab
 docker pull docker.io/gitlab/gitlab-ce
