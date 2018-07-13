@@ -1,0 +1,71 @@
+wget https://packages.erlang-solutions.com/erlang/esl-erlang/FLAVOUR_1_general/esl-erlang_20.3-1~centos~7_amd64.rpm
+wget http://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/e/epel-release-7-11.noarch.rpm
+wget http://www.rabbitmq.com/releases/erlang/esl-erlang-compat-18.1-1.noarch.rpm
+wget http://mirror.centos.org/centos/7/os/x86_64/Packages/socat-1.7.3.2-2.el7.x86_64.rpm
+wget https://dl.bintray.com/rabbitmq/all/rabbitmq-server/3.7.4/rabbitmq-server-3.7.4-1.el7.noarch.rpm
+rpm -ivh epel-release-7-11.noarch.rpm
+yum install wxGTK
+yum install wxGTK-gl
+rpm -ivh esl-erlang_20.3-1~centos~7_amd64.rpm
+rpm -ivh esl-erlang-compat-18.1-1.noarch.rpm
+rpm -ivh socat-1.7.3.2-2.el7.x86_64.rpm
+rpm -ivh rabbitmq-server-3.7.4-1.el7.noarch.rpm
+
+http://www.rabbitmq.com/rabbitmqctl.8.html
+
+
+
+
+mysql安装
+yum localinstall mysql80-community-release-el7-1.noarch.rpm
+vim /etc/yum.repos.d/mysql-community.repo
+yum install mysql-community-server
+systemctl enable mysqld.service
+service mysqld start
+grep 'temporary password' /var/log/mysqld.log
+
+set global validate_password_policy=0;
+
+set global validate_password_mixed_case_count=0;
+
+set global validate_password_number_count=3;  
+
+set global validate_password_special_char_count=0;  
+
+set global validate_password_length=3;  
+
+ALTER USER 'root'@'localhost' IDENTIFIED BY '203204';
+
+退出重新登录
+use mysql;
+
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '203204' WITH GRANT OPTION;
+
+FLUSH PRIVILEGES; 
+
+
+vim /etc/my.cnf
+
+[client]
+default-character-set=utf8
+
+
+default-storage-engine=INNODB
+character-set-server=utf8
+collation-server=utf8_general_ci
+
+max_connections=100
+
+
+SET GLOBAL max_allowed_packet=268435456
+
+
+上传文件工具
+	lrzsz
+yum install lrzsz -y
+
+上传	rz
+下载	sz
+
+
+

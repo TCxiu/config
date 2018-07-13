@@ -1,0 +1,36 @@
+清空文件内容，保留文件
+cat /dev/null > log.txt
+> log.txt
+echo >log.txt  (有空格)
+
+
+查看操作系统所用shell种类
+echo $SHELL
+
+shell脚本的运行方式
+1.   sh/bash 脚本名
+2.   ./脚本名
+3.   source/. 脚本名
+
+
+$USER $UID $HOME $SHELL 
+
+$0   获取当前执行脚本的文件名，包括路径
+	dirname $0
+	basename $0
+
+$n   获取当前执行脚本的第n个参数
+
+$*   获取当前shell的所有参数
+
+$#   获取当前shell所有参数的总个数
+
+
+$$   获取当前执行shell的进程号
+
+$?   上个命令是否执行成功   0成功  2 权限不足  1~125 运行失败，命令或参数传递错误  126 找到命令但无法执行  127 未找到要运行的命令 >128 命令被系统强行结束
+
+
+seq打印命令
+  seq  n 默认换行打印
+  seq -s "分割符" n m

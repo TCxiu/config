@@ -1,0 +1,10 @@
+﻿jdk下载地址
+http://java.sun.com/products/archive/
+
+keytool -genkeypair -alias douyoudian-config-key -keyalg RSA -dname "CN=Config Server,OU=Douyoudian,O=config-server,L=ZhengZhou,S=HeNan,C=CH" -keypass dyd_2018 -keystore server.jks -storepass dyd_2018
+
+数组转list
+Stream.of(a).collect(Collectors.toList());
+
+数组转字符
+Stream.of(a).reduce((now, later) -> now + "," + later).get()
