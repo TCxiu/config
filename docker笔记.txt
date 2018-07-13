@@ -149,8 +149,8 @@ docker run -d --name kafka --publish 9092:9092 \ --link zookeeper \ --env KAFKA_
 
 
 安装gitlab
-docker pull docker.io/gitlab/gitlab-ce
-docker run -d --hostname douyoudian.gitlab.com --name gitlab --restart always -p 80:80 -p 222:22 -p 443:443 -v /root/gitlab/config:/etc/gitlab -v /root/gitlab/log:/var/log/gitlab -v /root/gitlab/data:/var/opt/gitlab 
+docker pull twang2218/gitlab-ce-zh
+docker run -d --hostname gitlab.likepeng.cn --name gitlab --restart always -p 80:80 -p 222:22 -p 443:443 -v /root/gitlab/config:/etc/gitlab -v /root/gitlab/log:/var/log/gitlab -v /root/gitlab/data:/var/opt/gitlab 
 
 
 安装elasticsearch
