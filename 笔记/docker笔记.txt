@@ -133,11 +133,31 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: 203204
 
 
+安装mail服务器
+vim docker-compose.yml
+services:
+
+  mongo:
+    image: mongo
+    container_name: mongo
+    hostname: mongo
+    restart: always
+	ports:
+      - 27017:27017
+    volumes:
+	  - ./mongo:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 203204
+
+
+
 
 安装redis
 docker pull redis
-docker run --hostname redis --name redis -p 6379:6379  -v /root/redis/data:/data -itd redis:latest redis-server  --appendonly yes
+docker run --hostname redis --name redis -p 6379:6379 -v /home/xiu/redis/redis.conf:/usr/local/etc/redis/redis.conf  -v /root/redis/data:/data -itd redis:latest redis-server /usr/local/etc/redis/redis.conf  --appendonly yes
 docker exec -it 43f7a65ec7f8 redis-cli
+
 
 
 使用命令查看镜像的ip地址：docker inspect 66650c3bafd9 |grep -i add
