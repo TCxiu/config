@@ -104,17 +104,34 @@ services:
 
 
 安装mongodb
-docker search mongo
-docker pull mongo
-docker run --hostname mongo --name mongo -p 27017:27017 -v $PWD/mongo:/data/db -d mongo:latest
-连接
-docker run -it mongo:latest(镜像名) mongo --host 192.168.0.82 (执行镜像内部命令)
+vim docker-compose.yml
 
+version: '3.1'
 
-安装mongo管控台
-docker search mongo-express
-docker pull mongo-express
-docker run -itd -p 8081:8081 --link bbdfc8b83a1b(mongo容器id):mongo mongo-express
+services:
+
+  mongo:
+    image: mongo
+    container_name: mongo
+    hostname: mongo
+    restart: always
+	ports:
+      - 27017:27017
+    volumes:
+	  - ./mongo:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 203204
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: 203204
+
 
 
 安装redis
@@ -169,15 +186,6 @@ services:
       ZOO_MY_ID: 3
       ZOO_SERVERS: server.1=192.168.1.20:2888:3888 server.2=192.168.1.20:2888:3888 server.3=0.0.0.0:2888:3888
 
-docker-compose -f docker-compose.yml up -d
-
-docker run -d --name kafka1 --publish 9092:9092 --link zookeeper \
---env KAFKA_ZOOKEEPER_CONNECT=zookeeper_zoo1_1:2181,zookeeper_zoo2_1:2182,zookeeper_zoo3_1:2183 \
---env KAFKA_ADVERTISED_HOST_NAME=192.168.0.189 \
---env KAFKA_BROKER_ID=1 \
---env KAFKA_ADVERTISED_PORT=9092 \
---volume /etc/localtime:/etc/localtime \
-wurstmeister/kafka:latest
 
 
 docker run --name jenkins -p 8080:8080 -p 50000:50000 -u 0 -v /root/jenkins:/var/jenkins_home jenkins
@@ -187,11 +195,7 @@ faf5bf77080946d2b7a90a0889553ecd
 
 
 安装kafka集群
-docker pull wurstmeister/kafka
-docker pull sheepkiller/kafka-manager
-docker pull wurstmeister/zookeeper
 
-docker run -d --name kafka --publish 9092:9092 \ --link zookeeper \ --env KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181 \ --env KAFKA_ADVERTISED_HOST_NAME=192.168.1.20 \ --env KAFKA_ADVERTISED_PORT=9092 \ --volume /etc/localtime:/etc/localtime \ wurstmeister/kafka:latest
 
 
 
