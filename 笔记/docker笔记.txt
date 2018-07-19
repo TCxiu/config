@@ -43,21 +43,68 @@ docker inspect 容器id
 
 
 安装rabbitmq
-docker search rabbitmq:management
-docker pull rabbitmq:management 
-docker run --hostname rabbit --name rabbitmq -v /root/rabbit/:/var/rabbitmq/lib -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin -p 5671:5671  -p 5672:5672 -p 4369:4369 -p 25672:25672 -p 15671:15671 -p 15672:15672 -d rabbitmq:management
+
+vim docker-compose.yml
+
+version: '3.1'
+  
+services:
+   rabbit:
+     image: rabbitmq:management
+     container_name: rabbit
+     hostname: rabbit
+     restart: always
+     ports:
+         - 5671:5671
+		 - 5672:5672
+		 - 4369:4369
+		 - 25672:25672
+		 - 15671:15671
+		 - 15672:15672
+     volumes:
+         - ./rabbit:/var/rabbitmq/lib
+     environment:
+             RABBITMQ_DEFAULT_USER : admin
+             RABBITMQ_DEFAULT_PASS : admin
+
+
 
 
 安装mysql
-docker pull mysql:5.7
 
-docker run --name mysql -p 3306:3306 -v /root/data/mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=203204 -e MYSQL_ROOT_HOST=% -d mysql:5.7 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+vim my.cnf
 
+[mysqld]
+user=mysql
+default-storage-engine=INNODB
+character-set-server=utf8
+[client]
+default-character-set=utf8
+[mysql]
+default-character-set=utf8
 
+vim docker-compose.yml
+
+version: '3.1'
+  
+services:
+   mysql:
+     image: mysql:5.7
+     container_name: mysql
+     hostname: mysql
+     restart: always
+     ports:
+         - 3306:3306
+     volumes:
+         - ./mysql:/var/lib/mysql
+         - ./my.cnf:/etc/my.cnf
+     environment:
+             MYSQL_ROOT_HOST : "%"
+             MYSQL_ROOT_PASSWORD : 203204
 
 
 安装mongodb
-docker-compose.yml
+vim docker-compose.yml
 
 version: '3.1'
 
@@ -65,14 +112,19 @@ services:
 
   mongo:
     image: mongo
+    container_name: mongo
+    hostname: mongo
     restart: always
 	ports:
       - 27017:27017
+<<<<<<< HEAD
+=======
+    volumes:
+	  - ./mongo:/data/db
+>>>>>>> 45c4e17ebe6cd1f61a0dcb9df9a72f57a2f9188d
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: li203204
-	volumes:
-	  - ./data:/data/db
+      MONGO_INITDB_ROOT_PASSWORD: 203204
 
   mongo-express:
     image: mongo-express
@@ -81,13 +133,34 @@ services:
       - 8081:8081
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: li203204
+      ME_CONFIG_MONGODB_ADMINPASSWORD: 203204
+
+
+安装mail服务器
+vim docker-compose.yml
+services:
+
+  mongo:
+    image: mongo
+    container_name: mongo
+    hostname: mongo
+    restart: always
+	ports:
+      - 27017:27017
+    volumes:
+	  - ./mongo:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 203204
+
+
 
 
 安装redis
 docker pull redis
-docker run --hostname redis --name redis -p 6379:6379  -v /root/redis/data:/data -itd redis:latest redis-server  --appendonly yes
+docker run --hostname redis --name redis -p 6379:6379 -v /home/xiu/redis/redis.conf:/usr/local/etc/redis/redis.conf  -v /root/redis/data:/data -itd redis:latest redis-server /usr/local/etc/redis/redis.conf  --appendonly yes
 docker exec -it 43f7a65ec7f8 redis-cli
+
 
 
 使用命令查看镜像的ip地址：docker inspect 66650c3bafd9 |grep -i add
@@ -136,15 +209,6 @@ services:
       ZOO_MY_ID: 3
       ZOO_SERVERS: server.1=192.168.1.20:2888:3888 server.2=192.168.1.20:2888:3888 server.3=0.0.0.0:2888:3888
 
-docker-compose -f docker-compose.yml up -d
-
-docker run -d --name kafka1 --publish 9092:9092 --link zookeeper \
---env KAFKA_ZOOKEEPER_CONNECT=zookeeper_zoo1_1:2181,zookeeper_zoo2_1:2182,zookeeper_zoo3_1:2183 \
---env KAFKA_ADVERTISED_HOST_NAME=192.168.0.189 \
---env KAFKA_BROKER_ID=1 \
---env KAFKA_ADVERTISED_PORT=9092 \
---volume /etc/localtime:/etc/localtime \
-wurstmeister/kafka:latest
 
 
 docker run --name jenkins -p 8080:8080 -p 50000:50000 -u 0 -v /root/jenkins:/var/jenkins_home jenkins
@@ -154,17 +218,13 @@ faf5bf77080946d2b7a90a0889553ecd
 
 
 安装kafka集群
-docker pull wurstmeister/kafka
-docker pull sheepkiller/kafka-manager
-docker pull wurstmeister/zookeeper
 
-docker run -d --name kafka --publish 9092:9092 \ --link zookeeper \ --env KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181 \ --env KAFKA_ADVERTISED_HOST_NAME=192.168.1.20 \ --env KAFKA_ADVERTISED_PORT=9092 \ --volume /etc/localtime:/etc/localtime \ wurstmeister/kafka:latest
 
 
 
 安装gitlab
-docker pull twang2218/gitlab-ce-zh
-docker run -d --hostname gitlab.likepeng.cn --name gitlab --restart always -p 80:80 -p 222:22 -p 443:443 -v /root/gitlab/config:/etc/gitlab -v /root/gitlab/log:/var/log/gitlab -v /root/gitlab/data:/var/opt/gitlab 
+docker pull docker.io/gitlab/gitlab-ce
+docker run -d --hostname douyoudian.gitlab.com --name gitlab --restart always -p 80:80 -p 222:22 -p 443:443 -v /root/gitlab/config:/etc/gitlab -v /root/gitlab/log:/var/log/gitlab -v /root/gitlab/data:/var/opt/gitlab 
 
 
 安装elasticsearch

@@ -17,6 +17,8 @@ import javax.sql.DataSource;
 @EnableTransactionManagement
 class JpaConfig {
 
+ //@JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" }) 去除懒加载，否则json解析失败
+
   @Bean
   public DataSource dataSource() {
     DruidDataSource datasource = new DruidDataSource();
