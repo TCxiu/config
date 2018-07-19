@@ -117,11 +117,8 @@ services:
     restart: always
 	ports:
       - 27017:27017
-<<<<<<< HEAD
-=======
     volumes:
 	  - ./mongo:/data/db
->>>>>>> 45c4e17ebe6cd1f61a0dcb9df9a72f57a2f9188d
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: 203204
