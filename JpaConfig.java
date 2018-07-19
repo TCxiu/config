@@ -18,6 +18,7 @@ import javax.sql.DataSource;
 class JpaConfig {
 
  //@JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" }) 去除懒加载，否则json解析失败
+ //条件查询 仓库继承JpaSpecificationExecutor
 
   @Bean
   public DataSource dataSource() {
