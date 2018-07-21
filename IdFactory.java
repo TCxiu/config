@@ -1,4 +1,9 @@
-public class IdFactory {
+import org.hibernate.HibernateException;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
+import org.hibernate.id.IdentifierGenerator;
+import java.io.Serializable;
+
+public class IdFactory  implements IdentifierGenerator {
 
 
     private static long workerId;
@@ -60,5 +65,10 @@ public class IdFactory {
 
     protected  static long timeGen() {
         return System.currentTimeMillis();
+    }
+
+    @Override
+    public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
+        return nextId();
     }
 }

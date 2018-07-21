@@ -1,0 +1,15 @@
+wget http://download.redis.io/releases/redis-4.0.10.tar.gz
+
+make
+
+make PREFIX=/usr/local/redis install
+
+
+# chkconfig: 2345 10 90 
+
+
+cp utils/redis_init_script /etc/init.d/redis
+
+service redis start
+
+chkconfig redis on
