@@ -1,0 +1,40 @@
+yum install -y curl policycoreutils-python openssh-server
+
+systemctl enable sshd
+
+systemctl start sshd
+
+firewall-cmd --permanent --add-service=http
+
+systemctl reload firewalld
+
+yum install postfix
+
+systemctl enable postfix
+
+systemctl start postfix
+
+
+
+curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.rpm.sh | sudo bash
+
+EXTERNAL_URL="http://gitlab.dyoud.com" yum install -y gitlab-ee
+
+
+/etc/gitlab/gitlab.rb
+
+mkdir -p /etc/gitlab/ssl
+
+chmod 700 /etc/gitlab/ssl
+
+gitlab-ctl reconfigure
+
+gitlab-ctl restart
+
+git clone https://gitlab.com/xhang/gitlab.git
+
+git diff v11.0.4 v11.0.4-zh > ../11.0.4-zh.diff
+
+patch -d /opt/gitlab/embedded/service/gitlab-rails -p1 < 11.0.4-zh.diff
+
+gitlab-ctl reconfigure

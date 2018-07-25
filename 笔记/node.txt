@@ -23,6 +23,9 @@ cnpm install create-react-app -g
 
 cnpm i html-webpack-plugin -g
 
+cnpm i vue -g
+
+cnpm i vue-cli -g
 
 
 

@@ -1,0 +1,1 @@
+DigestUtils.md5DigestAsHex((user.getUserPassword()).getBytes())
