@@ -67,6 +67,8 @@ services:
              RABBITMQ_DEFAULT_USER : admin
              RABBITMQ_DEFAULT_PASS : admin
 
+启动
+	docker-compose up -d
 
 
 
@@ -102,6 +104,9 @@ services:
              MYSQL_ROOT_HOST : "%"
              MYSQL_ROOT_PASSWORD : Dyd_2018
 
+启动
+	docker-compose up -d
+
 
 安装mongodb
 vim docker-compose.yml
@@ -132,7 +137,8 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: 203204
 
-
+启动
+	docker-compose up -d
 
 
 安装redis
@@ -152,7 +158,9 @@ services:
       - 6379:6379
     volumes:
 	  - ./redis:/data
-
+	  
+启动
+	docker-compose up -d
 
 使用命令查看镜像的ip地址：docker inspect 66650c3bafd9 |grep -i add
 
@@ -218,23 +226,23 @@ vim docker-compose.yml
 
 汉化镜像 twang2218/gitlab-ce-zh
 
-version: '2'
+version: '3'
 
 services:
   gitlab:
     image: twang2218/gitlab-ce-zh
     container_name: gitlab
-    hostname: www.gitlab.com
+    hostname: gitlab.likepeng.com
     restart: always
     environment:
         TZ: 'Asia/Shanghai'
         GITLAB_OMNIBUS_CONFIG: |
-          external_url 'http://www.gitlab.com'
+          external_url 'http://gitlab.likepeng.com'
           gitlab_rails['time_zone'] = 'Asia/Shanghai'
     ports:
-      - '80:80'
-      - '443:443'
-      - '222:22'
+      - "80:80"
+      - "443:443"
+      - "222:22"
     volumes:
       - ./gitlab/config:/etc/gitlab
       - ./gitlab/log:/var/log/gitlab
