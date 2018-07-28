@@ -1,0 +1,95 @@
+香港
+47.52.253.35
+
+华北5
+39.104.99.211
+
+华东(li孙文鑫li)
+47.98.174.17
+li203204
+
+
+华东(li张俊毅li)
+47.98.219.205
+li203204
+
+
+
+都有店
+
+华北二
+
+39.106.97.176
+
+39.106.97.37
+
+47.94.197.249
+
+
+
+华北五
+39.104.99.42
+
+++dyd201866
+阿里云远程连接 Dyd666
+
+39.104.190.101
+
+++++++2018dyd
+阿里云远程连接 Dyd888
+
+
+39.104.183.86
+
+666++2018dyd
+
+阿里云远程连接 D6y6d6
+
+
+
+m.dyoud.com
+
+47.94.197.249:8809
+
+
+www.dyoud.com
+39.106.97.176:8088
+
+
+
+
+
+nohup java -jar serviceRegister-node1.jar >  register.log 2>&1 &
+
+
+mysql地址 
+	47.98.219.205
+
+redis地址
+	47.98.174.17   密码 dyd_2018	
+	
+http://39.104.99.211/root/data-transmission.git
+
+
+hystrix：
+   command：
+      default：
+       	execution：
+         	isolation：
+           		thread：
+             			timeoutInMilliseconds：60000
+
+ribbon：
+    ConnectTimeout：10000 
+    ReadTimeout：60000
+    SocketTimeout: 50000
+    
+zuul:
+   host:
+     connect-timeout-millis: 60000
+     socket-timeout-millis:50000
+   ribbon：
+     eager-load：
+          	enabled：true
+
+
