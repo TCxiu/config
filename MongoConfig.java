@@ -2,53 +2,37 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
-import static freemarker.template.utility.Collections12.singletonList;
+import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
-/**
- * @Auther 创建者: Tc李
- * @Date 创建时间: 2018/6/16 18:40
- * @Description 类描述:
- */
 
 @Configuration
-public class MongoConfig {
+@EnableMongoRepositories(basePackages = "com.xiu.mongo.operations.repository")
+public class MongoConfig extends AbstractMongoConfiguration {
 
-    @Bean
-    public MongoClient mongoClient(){
+    @Override
+    public MongoClient mongoClient() {
+        ServerAddress serverAddress = new ServerAddress("192.168.1.20",27017);
+        MongoCredential mongoCredential = MongoCredential.createCredential("root", "admin", "203204".toCharArray());
 
-        ServerAddress serverAddress = new ServerAddress("192.168.0.20",27017);
-        MongoCredential credential = MongoCredential.createCredential("root", "test", "203204".toCharArray());
-        MongoClientOptions mongoClientOptions = MongoClientOptions.builder()
-                .sslEnabled(false)
-                .maxWaitTime(1000)
-                .connectTimeout(1000)
-                .socketTimeout(1000)
-                .heartbeatSocketTimeout(1000)
-                .alwaysUseMBeans(true)
+        MongoClientOptions options = MongoClientOptions.builder()
+                .connectTimeout(10000)
+                .maxConnectionIdleTime(1000)
+                .maxWaitTime(10000)
+                .socketTimeout(10000)
+                .maxConnectionLifeTime(10000)
                 .build();
+//                .heartbeatConnectTimeout(10000);  //集群心跳检测
 
+        MongoClient mongoClient = new MongoClient(serverAddress,mongoCredential,options);
 
-        return new MongoClient(singletonList(serverAddress),
-                                singletonList(credential),
-                                 mongoClientOptions);
+        return mongoClient;
     }
 
-
-    @Bean
-    public SimpleMongoDbFactory simpleMongoDbFactory(){
-        SimpleMongoDbFactory mongoFactory = new SimpleMongoDbFactory(mongoClient(),"test");
-        return mongoFactory;
+    @Override
+    protected String getDatabaseName() {
+        return "test";
     }
-
-    @Bean
-    MongoTemplate mongoTemplate(){
-        MongoTemplate mongoTemplate = new MongoTemplate(simpleMongoDbFactory());
-        return mongoTemplate;
-    }
-
-
 }
+
